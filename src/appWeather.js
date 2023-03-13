@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const URL = 'https://api.openweathermap.org/data/2.5/weather';
 const URL2 = 'https://api.openweathermap.org/data/2.5/forecast';
+
 const API_KEY = 'be0f81a8f9f4c462088b51501fa506a7'
 
 const weatherTemp = document.getElementById("weather-block-temp");
@@ -17,45 +18,63 @@ const loadWeather = document.getElementById("load-weather-button");
 const forDayEl = document.getElementById("for-day");
 const forWeekEl = document.getElementById("for-week");
 
+
+
 day =  moment(new Date()).format('ddd')
 date = moment(new Date()).format('DD MMM YYYY')
 
 
-const fetchWeatherGeo = async (lat=33.44, lon=-94.04, units='metric') => {
+const fetchWeatherGeo = async (lat, lon, units='metric') => {
  
   const { data } = await axios.get(`${URL}/?lat=${lat}&lon=${lon}&units=${units}&exclude=deyly&APPID=${API_KEY}`);
-     return data;
+//   console.log(data)  
+  return data;
  
  }
 
+// Weather city
+
+const fetchWeatherCity = async (
+    cityName = 'Kyiv',
+    units = "metric"
+  ) => {
+    const { data } = await axios.get(
+        `${URL}?q=${cityName}&units=${units}&APPID=${API_KEY}`
+    );
+    // console.log(data);
+   return data;
+}
+
 
 const geoWeatherApp = () => {
-     
+// if (navigator.geolocation) {    
       navigator.geolocation.getCurrentPosition(function(position) {
         let lat = position.coords.latitude
         let lon = position.coords.longitude
         const units = 'metric'
     
-
       fetchWeatherGeo(lat, lon, units)
            .then(renderWeather)
             .catch(error => {});
-      }) ??
-      fetchWeatherGeo()
+        }) ?? 
+       fetchWeatherCity()
            .then(renderWeather)
             .catch(error => {});
-   
+    //   }
+    //   else {setWeatherLoader()}
     }
     
 const renderWeather = (weather) => {
-  forDayEl.classList = "weatherBlock_clear";
-  forWeekEl.classList = "weatherBlock_clear hidden";
+//   closetWeatherLoader();
+
+  forDayEl.classList = "weatherBlock_clean";
+  forWeekEl.classList = "weatherBlock_clean hidden";
 
 
-  weatherTemp.innerHTML = Math.round(weather?.main.temp) ?? "";
-  weatherDescription.innerHTML = weather?.weather[0].description ?? "";
-  weatherDescription.innerHTML = weather?.weather[0].description ?? "";
-  weatherName.innerHTML = weather?.name ?? "";
+  weatherTemp.innerHTML = `${Math.round(weather.main.temp)}`;
+  weatherDescription.innerHTML = `${weather.weather[0].description}`;
+  weatherDescription.innerHTML = `${weather.weather[0].description}`;
+  weatherName.innerHTML = `${weather.name}`;
   weatherIcon.innerHTML = `<img class="weatherBlock_city-icon" src="https://openweathermap.org/img/wn/${weather?.weather[0].icon}@2x.png" />`;
   weatherDate.innerHTML = `${day} <br> ${date}`;
 
@@ -70,12 +89,23 @@ geoWeatherApp();
 // // ----------------------------- 7 DAY -------------------------------
 
 
-const fetchWeatherForecast = async (lat=33.44, lon=-94.04, units='metric') => {
+const fetchWeatherForecast = async (lat, lon, units='metric') => {
  
   const { data } = await axios.get(`${URL2}?lat=${lat}&lon=${lon}&units=${units}&APPID=${API_KEY}`);
-     console.log(data)
+    //  console.log(data)
      return data;
  }
+
+// Weather City
+const fetchWeatherForecastCity = async (
+    cityName = 'Kyiv',
+    units = "metric") => {
+ 
+    const { data } = await axios.get(`${URL2}?q=${cityName}&units=${units}&APPID=${API_KEY}`);
+      //  console.log(data)
+       return data;
+   }
+
 
  const geoWeatherForecast = () => {
      
@@ -89,17 +119,19 @@ const fetchWeatherForecast = async (lat=33.44, lon=-94.04, units='metric') => {
     .then(renderWeatherForecast)
         .catch(error => {});
   }) ??
-  fetchWeatherForecast()
+  fetchWeatherForecastCity()
   .then(renderWeatherForecast)
         .catch(error => {});
 
 }
 
- const renderWeatherForecast = obj => {
-             console.log('вот прогноз', obj)
+ const renderWeatherForecast = obj => {  
+            //  closetWeatherLoader();
 
-             forDayEl.classList = "weatherBlock_clear hidden";
-             forWeekEl.classList = "weatherBlock_clear";
+            //  console.log('вот прогноз', obj)
+
+             forDayEl.classList = "weatherBlock_clean hidden";
+             forWeekEl.classList = "weatherBlock_clean";
 
              const day0 = obj.list[0];
              const day1 = obj.list[8];
@@ -147,6 +179,8 @@ const fetchWeatherForecast = async (lat=33.44, lon=-94.04, units='metric') => {
 
 
 
+// ---------- BUTTON
+
             document.addEventListener("click", (event)=>{
               if(event.target?.classList.contains("weatherBlock_weatherBtn")){ 
                 // console.log('Покажи прогноз неделя')   
@@ -163,3 +197,9 @@ const fetchWeatherForecast = async (lat=33.44, lon=-94.04, units='metric') => {
               }
                   )
 
+
+
+
+
+
+export default geoWeatherApp();
