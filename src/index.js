@@ -6,6 +6,8 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import axios from 'axios';
 import geoWeatherApp from './appWeather';
+import searchPagination from './paginator';
+
 
 
 const BASE_URL = 'https://pixabay.com/api/';

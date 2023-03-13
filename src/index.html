@@ -8,32 +8,34 @@
 
     
     <div id="root">
-      <div class="weatherBlock_main-container hidden" id="weather-block">
-        <div class="weatherBlock_weather-nav">
-          <div class="weatherBlock_city-temp">
-            <span id="weather-block-temp"></span>
-            <sup>&deg;</sup>
+      <div class="news__weather">
+        <!-- <div class="weatherBlock_main-container" id="weather-loader"></div> -->
+        <div class="weatherBlock_main-container" id="weather-block">
+          <div class="weatherBlock_weather-nav">
+            <div class="weatherBlock_city-temp">
+              <span id="weather-block-temp"></span>
+              <sup class="weatherBlock_temp-sup">&deg;</sup>
+            </div>
+  
+            <div class="weatherBlock_city-info">
+              <p class="weatherBlock_weather-description" id="weather-block-description"></p>
+              <p class="weatherBlock_city-name">
+                <span class="weatherBlock_weather-name" id="weather-block-name"></span>
+              </p>
+            </div>
           </div>
-
-          <div class="weatherBlock_city-info">
-            <p class="weatherBlock_weather-description" id="weather-block-description"></p>
-            <p class="weatherBlock_city-name">
-              <span class="weatherBlock_weather-name" id="weather-block-name"></span>
-            </p>
+          <div class="weatherBlock_clean" id="for-day">
+            <div class="weatherBlock_info-icon" id="weather-block-icon"></div>
+  
+            <div class="weatherBlock_info-down">
+              <p class="weatherBlock_info-date" id="weather-block-date"></p>
+            </div>
+          </div>
+          <div class="weatherBlock_clean weatherBlock_hidden" id="for-week"></div>
+          <div class="weatherBlock_Btn">
+            <button type="button" class="weatherBlock_weatherBtn" id="load-weather-button">weather for week</button>
           </div>
         </div>
-        <div class="weatherBlock_clean" id="for-day">
-          <div class="weatherBlock_info-icon" id="weather-block-icon"></div>
-
-          <div class="weatherBlock_info-down">
-            <p class="weatherBlock_info-date" id="weather-block-date"></p>
-          </div>
-        </div>
-        <div class="weatherBlock_clean hidden" id="for-week"></div>
-        <div class="weatherBlock_Btn">
-          <button type="button" class="weatherBlock_weatherBtn" id="load-weather-button">weather for week</button>
-        </div>
-      </div>
 
 
     </div>
@@ -49,6 +51,9 @@
     </div>
     <div class="center-button">
       <button type="button" class="load-more is-hidden" id="load-more">Load more</button>
+    </div>
+    <div id="paginator" class="pagination-list">
+      <ul id="paginator__pages-list"></ul>
     </div>
   
     <script src="index.js" type="module"></script>
